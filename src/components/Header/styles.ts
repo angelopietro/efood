@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import background from '../../assets/images/bg_header.svg'
+import background from '../../assets/images/bg_header.png'
 import { colors } from '../../styles'
 
 export const Logo = styled.img`
