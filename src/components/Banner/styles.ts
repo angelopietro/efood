@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { PropsBanner } from '.'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Logo = styled.img`
   cursor: pointer;
@@ -32,7 +32,14 @@ export const Container = styled.div<PropsBanner>`
   }
 
   .container {
-    width: 1024px;
+    width: 100%;
+    max-width: 1024px;
     margin: auto;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      grid-template-columns: 1fr;
+      padding-left: 16px;
+      padding-right: 16px;
+    }
   }
 `

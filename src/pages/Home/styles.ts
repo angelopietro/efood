@@ -1,17 +1,29 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 import { TagContainer } from '../../components/Tag/styles'
 
 export const Container = styled.main`
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 80px;
-  row-gap: 120px;
+  row-gap: 48px;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 `
 export const CardContainer = styled.div`
   background-color: ${colors.white};
-  width: 472px;
-  height: 398px;
+  height: 100%;
   text-align: left;
   color: ${colors.red};
 `
@@ -39,7 +51,6 @@ export const CardContentRestaurant = styled.div`
   border-style: solid;
   border-color: ${colors.red};
   padding: 10px;
-  height: 181px;
   p {
     margin: 16px 0;
     font-size: 14px;

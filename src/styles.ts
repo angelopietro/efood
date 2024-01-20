@@ -33,22 +33,24 @@ export const GlobalCss = createGlobalStyle`
  body {
   background-color: ${colors.body};
   font-family: 'Roboto', sans-serif;
+
  }
 
  main {
-  min-height: calc(100vh - 300px);
-  width: 1024px;
+  max-width: 1024px;
+  width: 100%;
   margin: 80px auto 120px;
  }
 
- .content {
-  max-width: 1024px;
-  width: 100%;
-  margin: 0 auto;
-  padding-top: 5rem;
-  padding-bottom: 7.5rem;
- }
 `
+// .content {
+//   max-width: 1024px;
+//   width: 100%;
+//   margin: 0 auto;
+//   padding-top: 5rem;
+//   padding-bottom: 7.5rem;
+//  }
+
 export const Overlay = styled.div`
   width: 100%;
   height: 100%;

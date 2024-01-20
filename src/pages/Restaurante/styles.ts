@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Container = styled.main`
   display: grid;
@@ -8,12 +8,27 @@ export const Container = styled.main`
   row-gap: 32px;
   margin-top: 56px;
   margin-bottom: 120px;
-`
 
+  @media (max-width: ${breakpoints.desktop}) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr 1fr;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  @media (max-width: ${breakpoints.mobile}) {
+    grid-template-columns: 1fr;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+`
 export const CardContainer = styled.div`
   background-color: ${colors.red};
-  width: 320px;
-  height: 338px;
+  height: 100%;
   text-align: left;
   color: ${colors.redLight};
   padding: 7px;

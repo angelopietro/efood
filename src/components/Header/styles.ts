@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import background from '../../assets/images/bg_header.png'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 
 export const Logo = styled.img`
   cursor: pointer;
@@ -19,26 +19,47 @@ export const Container = styled.header<ContainerProps>`
   align-items: center;
 
   .container {
-    width: 1024px;
+    width: 100%;
+    max-width: 1024px;
     margin: auto;
     display: flex;
     flex-direction: ${(props) => (props.isHomePage ? 'column' : 'row')};
     align-items: center;
     justify-content: ${(props) =>
       props.isHomePage ? 'center' : 'space-between'};
+
     h2 {
       font-size: 36px;
       font-weight: 900;
       color: ${colors.red};
       text-align: center;
       margin: 136px 0 0 0;
-      max-width: 550px;
+      width: 55%;
+
+      @media (max-width: ${breakpoints.desktop}) {
+        width: 75%;
+      }
+
+      @media (max-width: ${breakpoints.tablet}) {
+        width: 90%;
+        font-size: 24px;
+      }
     }
+
     .carrinho,
     .lista__restaurantes {
       color: ${colors.red};
       font-size: 18px;
       font-weight: 600;
+
+      @media (max-width: ${breakpoints.desktop}) {
+        padding: 0 10px;
+      }
+
+      @media (max-width: ${breakpoints.tablet}) {
+        font-size: 14px;
+        padding: 0 10px;
+      }
     }
   }
 `

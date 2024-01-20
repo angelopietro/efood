@@ -44,8 +44,6 @@ const Restaurante = () => {
       isVisible: false,
       item: {}
     })
-
-    console.log(item)
   }
 
   return (
