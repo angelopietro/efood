@@ -1,13 +1,26 @@
 import { useState } from 'react'
-import * as S from '../../styles'
-import { CartContainer, Sidebar } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
+import { close, remove } from '../../store/reducers/cart'
 import CartItems from './CartItems'
+import FinishOrder from './FinishOrder'
 import FormDelivery from './FormDelivery'
 import FormPayment from './FormPayment'
-import FinishOrder from './FinishOrder'
+import { CartContainer, Overlay, Sidebar } from './styles'
 
 const Cart = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+
+  const dispatch = useDispatch()
+
+  const closeCart = () => {
+    dispatch(close())
+  }
+
+  const removeItem = (id: number) => {
+    dispatch(remove(id))
+  }
+
   const [currentStep, setCurrentStep] = useState(1)
 
   const nextStep = () => {
@@ -18,14 +31,17 @@ const Cart = () => {
     setCurrentStep(currentStep - 1)
   }
 
-  const closeCart = () => {
-    setIsOpen(false)
-  }
-
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <CartItems proximoPasso={nextStep} />
+        return (
+          <CartItems
+            cartItems={items}
+            closeCart={closeCart}
+            removeItem={removeItem}
+            proximoPasso={nextStep}
+          />
+        )
       case 2:
         return (
           <FormDelivery proximoPasso={nextStep} passoAnterior={previousStep} />
@@ -43,7 +59,7 @@ const Cart = () => {
 
   return (
     <CartContainer className={isOpen ? 'is-open' : ''}>
-      <S.Overlay />
+      <Overlay onClick={closeCart} />
       <Sidebar>{renderStep()}</Sidebar>
     </CartContainer>
   )

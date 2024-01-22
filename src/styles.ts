@@ -41,16 +41,6 @@ export const GlobalCss = createGlobalStyle`
   width: 100%;
   margin: 80px auto 120px;
  }
-
-`
-
-export const Overlay = styled.div`
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  position: absolute;
 `
 export const ButtonAction = styled.button`
   border: none;
