@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 import { colors } from '../../../styles'
 
+export const CartContainer = styled.div`
+  padding-bottom: 20px;
+`
+
 export const CartItem = styled.li`
   display: flex;
   background-color: ${colors.redLight};
@@ -14,6 +18,8 @@ export const CartItem = styled.li`
     height: 80px;
     width: 80px;
     margin-right: 8px;
+    object-fit: cover;
+    object-position: center;
   }
 
   .item__content {

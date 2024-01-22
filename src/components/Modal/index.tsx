@@ -1,6 +1,7 @@
+import { useDispatch } from 'react-redux'
 import closeIcon from '../../assets/images/ico_close.svg'
 import { Cardapio } from '../../pages/Home'
-import * as S from '../../styles'
+import { add, open } from '../../store/reducers/cart'
 import { formatPrice } from '../../utils'
 import Button from '../Button'
 import {
@@ -8,7 +9,8 @@ import {
   ModalClose,
   ModalContainer,
   ModalContent,
-  ModalContentImage
+  ModalContentImage,
+  Overlay
 } from './styles'
 
 interface ModalState {
@@ -18,7 +20,15 @@ interface ModalState {
 }
 
 const Modal = ({ isVisible, cardapio, onClose }: ModalState) => {
+  const dispatch = useDispatch()
+
   if (!cardapio) return null
+
+  const addToCart = () => {
+    dispatch(add(cardapio))
+    dispatch(open())
+    onClose()
+  }
 
   const servePorcao = `Serve: ${cardapio.porcao !== '1 pessoa' ? 'de ' : ''} ${cardapio.porcao}`
 
@@ -37,13 +47,13 @@ const Modal = ({ isVisible, cardapio, onClose }: ModalState) => {
             title="Adicionar ao carrinho"
             type="button"
             variant="secondary"
-            onClick={() => onClose()}
+            onClick={() => addToCart()}
           >
             <>Adicionar ao carrinho - {formatPrice(cardapio.preco)}</>
           </Button>
         </ModalBody>
       </ModalContent>
-      <S.Overlay onClick={() => onClose()} />
+      <Overlay onClick={() => onClose()} />
     </ModalContainer>
   )
 }

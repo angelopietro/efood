@@ -15,6 +15,7 @@ import {
   RatingIcon,
   Title
 } from './styles'
+import { useGetRestaurantsQuery } from '../../services/api'
 
 export type RestauranteDetalhe = {
   id: number
@@ -37,13 +38,11 @@ export type Cardapio = {
 }
 
 const Home = () => {
-  const [restaurantes, setRestaurantes] = useState<RestauranteDetalhe[]>([])
+  const { data: restaurantes, isLoading } = useGetRestaurantsQuery()
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setRestaurantes(res))
-  }, [])
+  if (!restaurantes) {
+    return <>Carregando...</>
+  }
 
   const getDescricao = (descricao: string) => {
     if (descricao.length > 195) {

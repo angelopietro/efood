@@ -1,24 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Banner from '../../components/Banner'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
-import Modal from '../../components/Modal'
-import { CardContainer, CardImage, Container } from './styles'
 import Cart from '../../components/Cart'
-import { Cardapio, RestauranteDetalhe } from '../Home'
-import { useParams } from 'react-router-dom'
+import Modal from '../../components/Modal'
+import { useGetRestaurantByIdQuery } from '../../services/api'
+import { Cardapio } from '../Home'
+import { CardContainer, CardImage, Container } from './styles'
 
 const Restaurante = () => {
   const { id } = useParams()
-  const [detail, setDetail] = useState<RestauranteDetalhe>()
+  const { data: detail, isLoading } = useGetRestaurantByIdQuery(id!)
   const [showModal, setShowModal] = useState(false)
   const [selectedFood, setSelectedFood] = useState<Cardapio | null>(null)
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setDetail(res))
-  }, [id])
 
   if (!detail) {
     return <>Carregando...</>

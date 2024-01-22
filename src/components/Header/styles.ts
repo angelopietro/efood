@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import background from '../../assets/images/bg_header.png'
 import { breakpoints, colors } from '../../styles'
+import { Link } from 'react-router-dom'
 
 export const Logo = styled.img`
   cursor: pointer;
@@ -45,21 +46,33 @@ export const Container = styled.header<ContainerProps>`
         font-size: 24px;
       }
     }
+  }
+`
+export const CartButton = styled.span`
+  cursor: pointer;
+  color: ${colors.red};
+  font-size: 18px;
+  font-weight: 600;
+  @media (max-width: ${breakpoints.desktop}) {
+    padding: 0 10px;
+  }
 
-    .carrinho,
-    .lista__restaurantes {
-      color: ${colors.red};
-      font-size: 18px;
-      font-weight: 600;
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+`
+export const RestaurantLink = styled(Link)`
+  color: ${colors.red};
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  @media (max-width: ${breakpoints.desktop}) {
+    padding: 0 10px;
+  }
 
-      @media (max-width: ${breakpoints.desktop}) {
-        padding: 0 10px;
-      }
-
-      @media (max-width: ${breakpoints.tablet}) {
-        font-size: 14px;
-        padding: 0 10px;
-      }
-    }
+  @media (max-width: ${breakpoints.tablet}) {
+    font-size: 14px;
+    padding: 0 10px;
   }
 `

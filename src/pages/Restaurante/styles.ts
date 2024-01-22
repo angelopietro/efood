@@ -42,7 +42,7 @@ export const CardContainer = styled.div`
     margin: 10px 0;
     font-size: 14px;
     line-height: 22px;
-    color: colors.redLight;
+    color: ${colors.redLight};
   }
 `
 export const CardImage = styled.div<PropsCard>`
