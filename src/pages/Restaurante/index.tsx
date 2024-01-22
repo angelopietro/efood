@@ -1,81 +1,66 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Banner from '../../components/Banner'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
 import Modal from '../../components/Modal'
 import { CardContainer, CardImage, Container } from './styles'
 import Cart from '../../components/Cart'
+import { Cardapio, RestauranteDetalhe } from '../Home'
+import { useParams } from 'react-router-dom'
 
 const Restaurante = () => {
-  const cardapio = [
-    {
-      id: 1,
-      titulo: 'Pizza Marguerita',
-      descricao:
-        'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-    },
-    {
-      id: 2,
-      titulo: 'Pizza Quadro Queijos',
-      descricao:
-        'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-    },
-    {
-      id: 3,
-      titulo: 'Pizza Palmito',
-      descricao:
-        'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-    },
-    {
-      id: 4,
-      titulo: 'Pizza Manjericão 2',
-      descricao:
-        'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
+  const { id } = useParams()
+  const [detail, setDetail] = useState<RestauranteDetalhe>()
+  const [showModal, setShowModal] = useState(false)
+  const [selectedFood, setSelectedFood] = useState<Cardapio | null>(null)
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setDetail(res))
+  }, [id])
+
+  if (!detail) {
+    return <>Carregando...</>
+  }
+
+  const getDescricao = (descricao: string) => {
+    if (descricao.length > 195) {
+      return descricao.slice(0, 192) + '...'
     }
-  ]
-
-  const [openModal, setOpenModal] = useState({
-    isVisible: false,
-    item: {}
-  })
-
-  function addToCart(item: Food) {
-    setOpenModal({
-      isVisible: false,
-      item: {}
-    })
+    return descricao
   }
 
   return (
     <>
-      <Banner />
+      <Banner picture={detail.capa} type={detail.tipo} title={detail.titulo} />
       <Container>
-        {cardapio.map((item) => (
+        {detail.cardapio.map((item: Cardapio) => (
           <Card key={item.id}>
             <CardContainer>
-              <CardImage image="https://placehold.co/304x167" />
-              <h2>{item?.titulo}</h2>
+              <CardImage image={item.foto} />
+              <h2>{item?.nome}</h2>
 
-              <p>{item.descricao}</p>
+              <p>{getDescricao(item.descricao)}</p>
 
               <Button
                 type="button"
                 title="Ver mais sobre este item"
                 variant="secondary"
-                onClick={() => setOpenModal({ isVisible: true, item: item })}
+                onClick={() => {
+                  setSelectedFood(item)
+                  setShowModal(true)
+                }}
               >
-                Ver mais sobre este item
+                <>Ver mais sobre este item</>
               </Button>
               <Modal
-                isVisible={openModal.isVisible}
-                item={openModal.item}
-                closeModal={() =>
-                  setOpenModal({
-                    isVisible: false,
-                    item: {}
-                  })
-                }
-                addToCart={() => addToCart(openModal.item)}
+                isVisible={showModal}
+                cardapio={selectedFood}
+                onClose={() => {
+                  setSelectedFood(null)
+                  setShowModal(false)
+                }}
               />
             </CardContainer>
           </Card>

@@ -1,58 +1,49 @@
-import * as S from '../../styles'
 import closeIcon from '../../assets/images/ico_close.svg'
+import { Cardapio } from '../../pages/Home'
+import * as S from '../../styles'
+import { formatPrice } from '../../utils'
 import Button from '../Button'
 import {
-  ContainerImage,
   ModalBody,
   ModalClose,
   ModalContainer,
-  ModalContent
+  ModalContent,
+  ModalContentImage
 } from './styles'
 
 interface ModalState {
-  titulo?: string
-  closeModal?: () => void
   isVisible: boolean
-  item: Food
-  addToCart: () => void
+  cardapio: Cardapio | null
+  onClose: () => void
 }
 
-const Modal = ({ item, isVisible, closeModal, addToCart }: ModalState) => {
+const Modal = ({ isVisible, cardapio, onClose }: ModalState) => {
+  if (!cardapio) return null
+
+  const servePorcao = `Serve: ${cardapio.porcao !== '1 pessoa' ? 'de ' : ''} ${cardapio.porcao}`
+
   return (
-    <ModalContainer isOpen={isVisible}>
+    <ModalContainer isOpen={isVisible} key={cardapio.id}>
       <ModalContent>
-        <ModalClose>
-          <img src={closeIcon} alt="Fechar modal" onClick={closeModal} />
+        <ModalClose onClick={() => onClose()}>
+          <img src={closeIcon} alt="Fechar modal" />
         </ModalClose>
-        <ContainerImage>
-          <img src="https://placehold.co/280" alt="Pizza Marguerita" />
-        </ContainerImage>
+        <ModalContentImage src={cardapio.foto} alt={cardapio.nome} />
         <ModalBody>
-          <h3>{item?.titulo}</h3>
-          <p>
-            A pizza Margherita é uma pizza clássica da culinária italiana,
-            reconhecida por sua simplicidade e sabor inigualável. Ela é feita
-            com uma base de massa fina e crocante, coberta com molho de tomate
-            fresco, queijo mussarela de alta qualidade, manjericão fresco e
-            azeite de oliva extra-virgem. A combinação de sabores é perfeita,
-            com o molho de tomate suculento e ligeiramente ácido, o queijo
-            derretido e cremoso e as folhas de manjericão frescas, que adicionam
-            um toque de sabor herbáceo. É uma pizza simples, mas deliciosa, que
-            agrada a todos os paladares e é uma ótima opção para qualquer
-            ocasião.
-          </p>
-          <span>Serve: de 2 a 3 pessoas</span>
+          <h3>{cardapio.nome}</h3>
+          <p>{cardapio.descricao} </p>
+          <span>{servePorcao}</span>
           <Button
             title="Adicionar ao carrinho"
             type="button"
             variant="secondary"
-            onClick={addToCart}
+            onClick={() => onClose()}
           >
-            Adicionar ao carrinho - R$ 60,90
+            <>Adicionar ao carrinho - {formatPrice(cardapio.preco)}</>
           </Button>
         </ModalBody>
       </ModalContent>
-      <S.Overlay onClick={closeModal} />
+      <S.Overlay onClick={() => onClose()} />
     </ModalContainer>
   )
 }

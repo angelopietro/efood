@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { colors } from '../../styles'
+import { breakpoints, colors } from '../../styles'
 import { ButtonContainer } from '../Button/styles'
 
 type ModalContainerProps = {
@@ -20,24 +20,29 @@ export const ModalContainer = styled.div<ModalContainerProps>`
 
 export const ModalContent = styled.div`
   background-color: ${colors.red};
-  width: 64rem;
-  height: 21.5rem;
+  width: 100%;
+  max-width: 1024px;
   padding: 2rem;
   display: flex;
   position: relative;
   z-index: 1;
 
-  img {
-    width: 17.5rem;
-    height: 17.5rem;
-    object-fit: cover;
+  @media (max-width: ${breakpoints.desktop}) {
+    max-width: 90%;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    max-width: 90%;
+    flex-direction: column;
   }
 `
-export const ContainerImage = styled.div`
+export const ModalContentImage = styled.img`
+  width: 100%;
   max-width: 280px;
-  img {
-    width: 280px;
-    height: 280px;
+  object-fit: cover;
+  object-position: center;
+  @media (max-width: ${breakpoints.tablet}) {
+    margin: auto;
   }
 `
 
@@ -50,32 +55,39 @@ export const ModalClose = styled.button`
   cursor: pointer;
   width: 48px;
   height: 48px;
-
-  img {
-    width: 1rem;
-    height: 1rem;
-  }
 `
 
 export const ModalBody = styled.div`
   color: #fff;
-  margin-left: 1.4rem;
+  margin-left: 20px;
   display: grid;
+  font-size: 14px;
 
   h3 {
-    font-size: 1.125rem;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 700;
   }
 
   p {
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.375rem;
+    font-size: 14px;
+    line-height: 22px;
     padding-bottom: 1rem;
   }
 
   ${ButtonContainer} {
-    width: 14.625rem;
+    width: 218px;
+    height: 24px;
+    margin-top: 20px;
     padding: 0;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    text-align: center;
+    margin-left: 0;
+    margin-top: 20px;
   }
 `

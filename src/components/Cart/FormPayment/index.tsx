@@ -95,7 +95,7 @@ const FormPayment = ({ proximoPasso, passoAnterior }: CartSteps) => {
             title="Finalizar pagamento"
             onClick={proximoPasso}
           >
-            Finalizar pagamento
+            <>Finalizar pagamento</>
           </Button>
         </Row>
         <Row marginTop="8px">
@@ -105,7 +105,7 @@ const FormPayment = ({ proximoPasso, passoAnterior }: CartSteps) => {
             title="Voltar para a edição de endereço"
             onClick={passoAnterior}
           >
-            Voltar para a edição de endereço
+            <>Voltar para a edição de endereço</>
           </Button>
         </Row>
       </form>

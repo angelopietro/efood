@@ -1,13 +1,11 @@
 import styled from 'styled-components'
-import { PropsBanner } from '.'
 import { breakpoints, colors } from '../../styles'
 
 export const Logo = styled.img`
   cursor: pointer;
 `
 
-export const Container = styled.div<PropsBanner>`
-  background-image: url(${(props) => props.image});
+export const Container = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -23,6 +21,7 @@ export const Container = styled.div<PropsBanner>`
 
   h2 {
     font-weight: 400;
+    text-transform: capitalize;
   }
 
   h3 {
