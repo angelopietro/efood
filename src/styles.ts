@@ -43,21 +43,13 @@ export const GlobalCss = createGlobalStyle`
  }
 
 `
-// .content {
-//   max-width: 1024px;
-//   width: 100%;
-//   margin: 0 auto;
-//   padding-top: 5rem;
-//   padding-bottom: 7.5rem;
-//  }
 
 export const Overlay = styled.div`
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #000;
-  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.2);
   position: absolute;
 `
 export const ButtonAction = styled.button`

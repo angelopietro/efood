@@ -35,7 +35,7 @@ const FinishOrder = ({ isOpened }: CartSteps) => {
           title="Concluir"
           onClick={() => isOpened()}
         >
-          Concluir
+          <>Concluir</>
         </Button>
       </Row>
     </FormContainer>

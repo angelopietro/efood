@@ -109,7 +109,7 @@ const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
             title="Continuar com o pagamento"
             onClick={proximoPasso}
           >
-            Continuar com o pagamento
+            <>Continuar com o pagamento</>
           </Button>
         </Row>
         <Row marginTop="8px">
@@ -119,7 +119,7 @@ const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
             title="Voltar para o carrinho"
             onClick={passoAnterior}
           >
-            Voltar para o carrinho
+            <>Voltar para o carrinho</>
           </Button>
         </Row>
       </form>

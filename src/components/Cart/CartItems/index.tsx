@@ -52,7 +52,7 @@ const CartItems = ({ proximoPasso }: CartSteps) => {
         title="Continuar com a entrega"
         onClick={proximoPasso}
       >
-        Continuar com a entrega
+        <>Continuar com a entrega</>
       </Button>
     </>
   )

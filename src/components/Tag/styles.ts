@@ -11,4 +11,5 @@ export const TagContainer = styled.div<Props>`
   padding: ${(props) => (props.size === 'big' ? '8px 16px' : '6px 4px')};
   display: inline-block;
   text-align: center;
+  text-transform: ${(props) => props.transform};
 `

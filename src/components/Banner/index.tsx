@@ -1,17 +1,18 @@
-import bannerImage from '../../assets/images/capa.jpeg'
 import { Container } from './styles'
 
 export type PropsBanner = {
-  image: string
+  picture: string
+  type: string
+  title: string
 }
 
-const Banner = () => {
+const Banner = ({ picture, type, title }: PropsBanner) => {
   return (
     <>
-      <Container image={bannerImage}>
+      <Container style={{ backgroundImage: `url(${picture})` }}>
         <div className="container">
-          <h2>Italiana</h2>
-          <h3>La Dolce Vita Trattoria</h3>
+          <h2>{type}</h2>
+          <h3>{title}</h3>
         </div>
       </Container>
     </>
