@@ -6,37 +6,37 @@ import Card from '../../components/Card'
 import Cart from '../../components/Cart'
 import Modal from '../../components/Modal'
 import { useGetRestaurantByIdQuery } from '../../services/api'
-import { Cardapio } from '../Home'
 import { CardContainer, CardImage, Container } from './styles'
+import Loader from '../../components/Loader'
 
 const Restaurante = () => {
   const { id } = useParams()
-  const { data: detail, isLoading } = useGetRestaurantByIdQuery(id!)
+  const { data: detail } = useGetRestaurantByIdQuery(id!)
   const [showModal, setShowModal] = useState(false)
-  const [selectedFood, setSelectedFood] = useState<Cardapio | null>(null)
+  const [selectedFood, setSelectedFood] = useState<ProductMenu | null>(null)
 
   if (!detail) {
-    return <>Carregando...</>
+    return <Loader color="#E66767" />
   }
 
-  const getDescricao = (descricao: string) => {
-    if (descricao.length > 195) {
-      return descricao.slice(0, 192) + '...'
+  const getDescription = (text: string) => {
+    if (text.length > 195) {
+      return text.slice(0, 192) + '...'
     }
-    return descricao
+    return text
   }
 
   return (
     <>
       <Banner picture={detail.capa} type={detail.tipo} title={detail.titulo} />
       <Container>
-        {detail.cardapio.map((item: Cardapio) => (
+        {detail.cardapio.map((item: ProductMenu) => (
           <Card key={item.id}>
             <CardContainer>
               <CardImage image={item.foto} />
               <h2>{item?.nome}</h2>
 
-              <p>{getDescricao(item.descricao)}</p>
+              <p>{getDescription(item.descricao)}</p>
 
               <Button
                 type="button"
@@ -51,7 +51,7 @@ const Restaurante = () => {
               </Button>
               <Modal
                 isVisible={showModal}
-                cardapio={selectedFood}
+                menu={selectedFood}
                 onClose={() => {
                   setSelectedFood(null)
                   setShowModal(false)

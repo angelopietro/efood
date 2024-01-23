@@ -1,23 +1,23 @@
+import { useDispatch } from 'react-redux'
 import trashIcon from '../../..//assets/images/ico_lixeira.svg'
-import { Cardapio } from '../../../pages/Home'
+import { checkoutSteps } from '../../../store/reducers/cart'
 import { formatPrice, getTotalPrice } from '../../../utils'
 import Button from '../../Button'
-import { CartItem, CartTotalPrice, CartContainer } from './styles'
+import { CartContainer, CartItem, CartTotalPrice } from './styles'
 
 interface CartSteps {
-  cartItems: Cardapio[]
-  proximoPasso: () => void
+  cartItems: ProductMenu[]
   removeItem: (id: number) => void
   closeCart: () => void
 }
 
-const CartItems = ({
-  cartItems,
-  removeItem,
-  proximoPasso,
-  closeCart
-}: CartSteps) => {
+const CartItems = ({ cartItems, removeItem, closeCart }: CartSteps) => {
   const displayCartItems = cartItems.length !== 0
+  const dispatch = useDispatch()
+
+  const nextStep = () => {
+    dispatch(checkoutSteps({ step: 'Delivery' }))
+  }
 
   return (
     <>
@@ -46,9 +46,10 @@ const CartItems = ({
           </CartTotalPrice>
 
           <Button
-            type="button"
+            type="submit"
             variant="secondary"
             title="Continuar com a entrega"
+            onClick={nextStep}
           >
             <>Continuar com a entrega</>
           </Button>

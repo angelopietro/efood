@@ -1,26 +1,79 @@
 import { useFormik } from 'formik'
-import Button from '../../Button'
+import InputMask from 'react-input-mask'
+import { useDispatch, useSelector } from 'react-redux'
+import * as Yup from 'yup'
+import { RootReducer } from '../../../store'
+import { addAddress, checkoutSteps } from '../../../store/reducers/cart'
 import { FormContainer, InputGroup, Row } from '../../../styles'
+import Button from '../../Button'
 
-interface CartSteps {
-  proximoPasso: () => void
-  passoAnterior: () => void
-}
-
-const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
+const FormDelivery = () => {
+  const { userAddress } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
+  const { receiver, address } = userAddress.delivery
   const form = useFormik({
     initialValues: {
-      nome: '',
-      endereco: '',
-      cidade: '',
-      cep: '',
-      numero: '',
-      complemento: ''
+      userName: receiver,
+      userAddress: address.description,
+      userCity: address.city,
+      userZipCode: address.zipCode,
+      userAddressNumber: address.number,
+      userComplement: address.complement
     },
+    validationSchema: Yup.object({
+      userName: Yup.string()
+        .min(5, 'O nome precisa ter pelo menos 5 caracteres')
+        .required('O campo é obrigatório'),
+      userAddress: Yup.string()
+        .min(5, 'O endereço precisa ter pelo menos 5 caracteres')
+        .required('O campo é obrigatório'),
+      userCity: Yup.string()
+        .min(3, 'O nome da cidade precisa ter pelo menos 3 caracteres')
+        .required('O campo é obrigatório'),
+      userZipCode: Yup.string()
+        .min(10)
+        .max(10)
+        .required('O campo é obrigatório'),
+      userAddressNumber: Yup.string()
+        .min(1)
+        .max(5)
+        .required('O campo é obrigatório')
+    }),
     onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2))
+      dispatch(
+        addAddress({
+          delivery: {
+            receiver: values.userName,
+            address: {
+              description: values.userAddress,
+              city: values.userCity,
+              zipCode: values.userZipCode,
+              number: values.userAddressNumber,
+              complement: values.userComplement
+            }
+          }
+        })
+      )
+      nextStep()
     }
   })
+
+  const checkInputHasError = (fieldName: string, message?: string) => {
+    const isTouched = fieldName in form.touched
+    const isInvalid = fieldName in form.errors
+    const hasError = isTouched && isInvalid
+
+    if (hasError) return { error: hasError, errorMessage: message }
+    return null
+  }
+
+  const nextStep = () => {
+    dispatch(checkoutSteps({ step: 'Payment' }))
+  }
+
+  const previousStep = () => {
+    dispatch(checkoutSteps({ step: 'Cart' }))
+  }
 
   return (
     <FormContainer>
@@ -28,75 +81,120 @@ const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
       <form onSubmit={form.handleSubmit}>
         <Row>
           <InputGroup>
-            <label htmlFor="nome">Quem irá receber</label>
+            <label htmlFor="userName">Quem irá receber</label>
             <input
-              id="nome"
+              className={checkInputHasError('userName') ? 'has-error' : ''}
+              id="userName"
               type="text"
-              name="nome"
-              value={form.values.nome}
+              name="userName"
+              value={form.values.userName}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
+            <small>
+              {
+                checkInputHasError('userName', form.errors.userName)
+                  ?.errorMessage
+              }
+            </small>
           </InputGroup>
         </Row>
         <Row marginTop="10px">
           <InputGroup>
-            <label htmlFor="endereco">Endereço</label>
+            <label htmlFor="userAddress">Endereço</label>
             <input
-              id="endereco"
+              className={checkInputHasError('userAddress') ? 'has-error' : ''}
+              id="userAddress"
               type="text"
-              name="endereco"
-              value={form.values.endereco}
+              name="userAddress"
+              value={form.values.userAddress}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
+            <small>
+              {
+                checkInputHasError('userAddress', form.errors.userAddress)
+                  ?.errorMessage
+              }
+            </small>
           </InputGroup>
         </Row>
         <Row marginTop="10px">
           <InputGroup>
-            <label htmlFor="cidade">Cidade</label>
+            <label htmlFor="userCity">Cidade</label>
             <input
-              id="cidade"
+              className={checkInputHasError('userCity') ? 'has-error' : ''}
+              id="userCity"
               type="text"
-              name="cidade"
-              value={form.values.cidade}
+              name="userCity"
+              value={form.values.userCity}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
+            <small>
+              {
+                checkInputHasError('userCity', form.errors.userCity)
+                  ?.errorMessage
+              }
+            </small>
           </InputGroup>
         </Row>
         <Row marginTop="10px">
           <InputGroup>
-            <label htmlFor="cep">CEP</label>
-            <input
-              id="cep"
+            <label htmlFor="userZipCode">Cep</label>
+            <InputMask
+              className={checkInputHasError('userZipCode') ? 'has-error' : ''}
+              id="userZipCode"
               type="text"
-              name="cep"
-              value={form.values.cep}
+              name="userZipCode"
+              value={form.values.userZipCode}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
+              mask="99.999-999"
             />
+            <small>
+              {
+                checkInputHasError('userZipCode', form.errors.userZipCode)
+                  ?.errorMessage
+              }
+            </small>
           </InputGroup>
           <InputGroup>
-            <label htmlFor="numero">Número</label>
+            <label htmlFor="userAddressNumber">Número</label>
             <input
-              id="numero"
+              className={
+                checkInputHasError(
+                  'userAddressNumber',
+                  form.errors.userAddressNumber
+                )
+                  ? 'has-error'
+                  : ''
+              }
+              id="userAddressNumber"
               type="text"
-              name="numero"
-              value={form.values.numero}
+              name="userAddressNumber"
+              value={form.values.userAddressNumber}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
+            <small>
+              {
+                checkInputHasError(
+                  'userAddressNumber',
+                  form.errors.userAddressNumber
+                )?.errorMessage
+              }
+            </small>
           </InputGroup>
         </Row>
         <Row marginTop="10px">
           <InputGroup>
-            <label htmlFor="complemento">Complemento (opcional)</label>
+            <label htmlFor="userComplement">Complemento (opcional)</label>
             <input
-              id="complemento"
+              id="userComplement"
               type="text"
-              name="complemento"
-              value={form.values.complemento}
+              name="userComplement"
+              value={form.values.userComplement}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
@@ -104,10 +202,9 @@ const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
         </Row>
         <Row marginTop="24px">
           <Button
-            type="button"
+            type="submit"
             variant="secondary"
             title="Continuar com o pagamento"
-            onClick={proximoPasso}
           >
             <>Continuar com o pagamento</>
           </Button>
@@ -117,7 +214,7 @@ const FormDelivery = ({ proximoPasso, passoAnterior }: CartSteps) => {
             type="button"
             variant="secondary"
             title="Voltar para o carrinho"
-            onClick={passoAnterior}
+            onClick={previousStep}
           >
             <>Voltar para o carrinho</>
           </Button>
