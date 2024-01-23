@@ -9,9 +9,13 @@ import { useGetRestaurantByIdQuery } from '../../services/api'
 import { CardContainer, CardImage, Container } from './styles'
 import Loader from '../../components/Loader'
 
+type MenuParams = {
+  id: string
+}
+
 const Restaurante = () => {
-  const { id } = useParams()
-  const { data: detail } = useGetRestaurantByIdQuery(id!)
+  const { id } = useParams() as MenuParams
+  const { data: detail } = useGetRestaurantByIdQuery(id)
   const [showModal, setShowModal] = useState(false)
   const [selectedFood, setSelectedFood] = useState<ProductMenu | null>(null)
 

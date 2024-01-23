@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux'
 import { checkoutSteps, close, resetOrder } from '../../../store/reducers/cart'
 import { FormContainer, Row } from '../../../styles'
 import Button from '../../Button'
+import { useEffect } from 'react'
 
 interface Order {
   orderId: string
@@ -9,11 +10,17 @@ interface Order {
 
 const FinishOrder = ({ orderId }: Order) => {
   const dispatch = useDispatch()
+
   const finishOrder = () => {
-    dispatch(resetOrder())
-    dispatch(checkoutSteps({ step: 'Cart' }))
     dispatch(close())
+    dispatch(checkoutSteps({ step: 'Cart' }))
   }
+
+  useEffect(() => {
+    if (orderId) {
+      dispatch(resetOrder())
+    }
+  }, [orderId, dispatch])
   return (
     <FormContainer>
       <h2>Pedido realizado - {orderId}</h2>

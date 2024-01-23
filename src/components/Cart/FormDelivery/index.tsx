@@ -173,7 +173,11 @@ const FormDelivery = () => {
               id="userAddressNumber"
               type="text"
               name="userAddressNumber"
-              value={form.values.userAddressNumber}
+              value={
+                form.values.userAddressNumber === 0
+                  ? ''
+                  : form.values.userAddressNumber
+              }
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />
