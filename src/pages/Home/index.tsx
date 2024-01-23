@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
 import imagemEstrela from '../../assets/images/ico_estrela.svg'
 import Button from '../../components/Button'
 import Card from '../../components/Card'
+import Loader from '../../components/Loader'
 import Tag from '../../components/Tag'
+import { useGetRestaurantsQuery } from '../../services/api'
 import {
   CardContainer,
   CardContainerImage,
@@ -15,40 +16,19 @@ import {
   RatingIcon,
   Title
 } from './styles'
-import { useGetRestaurantsQuery } from '../../services/api'
-
-export type RestauranteDetalhe = {
-  id: number
-  titulo: string
-  destacado: boolean
-  tipo: string
-  avaliacao: number
-  descricao: string
-  capa: string
-  cardapio: Cardapio[]
-}
-
-export type Cardapio = {
-  foto: string
-  preco: number
-  id: number
-  nome: string
-  descricao: string
-  porcao: string
-}
 
 const Home = () => {
-  const { data: restaurantes, isLoading } = useGetRestaurantsQuery()
+  const { data: restaurantes } = useGetRestaurantsQuery()
 
   if (!restaurantes) {
-    return <>Carregando...</>
+    return <Loader color="#E66767" />
   }
 
-  const getDescricao = (descricao: string) => {
-    if (descricao.length > 195) {
-      return descricao.slice(0, 192) + '...'
+  const getDescription = (text: string) => {
+    if (text.length > 195) {
+      return text.slice(0, 192) + '...'
     }
-    return descricao
+    return text
   }
 
   return (
@@ -77,7 +57,7 @@ const Home = () => {
                   </Rating>
                 </CardContentHeader>
 
-                <p>{getDescricao(item.descricao)}</p>
+                <p>{getDescription(item.descricao)}</p>
 
                 <Button
                   type="link"

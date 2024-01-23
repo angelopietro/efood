@@ -1,14 +1,22 @@
+import { useDispatch } from 'react-redux'
+import { checkoutSteps, close, resetOrder } from '../../../store/reducers/cart'
 import { FormContainer, Row } from '../../../styles'
 import Button from '../../Button'
 
-interface CartSteps {
-  isOpened: () => void
+interface Order {
+  orderId: string
 }
 
-const FinishOrder = ({ isOpened }: CartSteps) => {
+const FinishOrder = ({ orderId }: Order) => {
+  const dispatch = useDispatch()
+  const finishOrder = () => {
+    dispatch(resetOrder())
+    dispatch(checkoutSteps({ step: 'Cart' }))
+    dispatch(close())
+  }
   return (
     <FormContainer>
-      <h2>Pedido realizado - 1234</h2>
+      <h2>Pedido realizado - {orderId}</h2>
       <p className="finish__order">
         Estamos felizes em informar que seu pedido já está em processo de
         preparação e, em breve, será entregue no endereço fornecido.
@@ -33,7 +41,7 @@ const FinishOrder = ({ isOpened }: CartSteps) => {
           type="button"
           variant="secondary"
           title="Concluir"
-          onClick={() => isOpened()}
+          onClick={finishOrder}
         >
           <>Concluir</>
         </Button>

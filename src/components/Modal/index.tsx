@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import closeIcon from '../../assets/images/ico_close.svg'
-import { Cardapio } from '../../pages/Home'
 import { add, open } from '../../store/reducers/cart'
 import { formatPrice } from '../../utils'
 import Button from '../Button'
@@ -15,33 +14,33 @@ import {
 
 interface ModalState {
   isVisible: boolean
-  cardapio: Cardapio | null
+  menu: ProductMenu | null
   onClose: () => void
 }
 
-const Modal = ({ isVisible, cardapio, onClose }: ModalState) => {
+const Modal = ({ isVisible, menu, onClose }: ModalState) => {
   const dispatch = useDispatch()
 
-  if (!cardapio) return null
+  if (!menu) return null
 
   const addToCart = () => {
-    dispatch(add(cardapio))
+    dispatch(add(menu))
     dispatch(open())
     onClose()
   }
 
-  const servePorcao = `Serve: ${cardapio.porcao !== '1 pessoa' ? 'de ' : ''} ${cardapio.porcao}`
+  const servePorcao = `Serve: ${menu.porcao !== '1 pessoa' ? 'de ' : ''} ${menu.porcao}`
 
   return (
-    <ModalContainer isOpen={isVisible} key={cardapio.id}>
+    <ModalContainer isOpen={isVisible} key={menu.id}>
       <ModalContent>
         <ModalClose onClick={() => onClose()}>
           <img src={closeIcon} alt="Fechar modal" />
         </ModalClose>
-        <ModalContentImage src={cardapio.foto} alt={cardapio.nome} />
+        <ModalContentImage src={menu.foto} alt={menu.nome} />
         <ModalBody>
-          <h3>{cardapio.nome}</h3>
-          <p>{cardapio.descricao} </p>
+          <h3>{menu.nome}</h3>
+          <p>{menu.descricao} </p>
           <span>{servePorcao}</span>
           <Button
             title="Adicionar ao carrinho"
@@ -49,7 +48,7 @@ const Modal = ({ isVisible, cardapio, onClose }: ModalState) => {
             variant="secondary"
             onClick={() => addToCart()}
           >
-            <>Adicionar ao carrinho - {formatPrice(cardapio.preco)}</>
+            <>Adicionar ao carrinho - {formatPrice(menu.preco)}</>
           </Button>
         </ModalBody>
       </ModalContent>

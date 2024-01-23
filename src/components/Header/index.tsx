@@ -23,7 +23,7 @@ const Header = () => {
     <>
       <Container isHomePage={isHome}>
         <div className="container">
-          {!isHome && <RestaurantLink to="/">restaurantes</RestaurantLink>}
+          {!isHome && <RestaurantLink to="/">Restaurantes</RestaurantLink>}
           <Link to="/" title="Página inicial">
             <Logo
               src={logoEfood}

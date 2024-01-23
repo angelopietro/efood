@@ -12,7 +12,8 @@ export const colors = {
   body: '#FFF8F2',
   white: '#FFF',
   red: '#E66767',
-  redLight: '#FFEBD9'
+  redLight: '#FFEBD9',
+  error: '#FF9B9B'
 }
 
 export const breakpoints = {
@@ -56,14 +57,14 @@ export const ButtonAction = styled.button`
 export const FormContainer = styled.div`
   h2 {
     font-size: 16px;
-    color: ${colors.white};
+    color: ${colors.redLight};
     margin-bottom: 16px;
   }
 
   p.finish__order {
     line-height: 22px;
     font-size: 14px;
-    color: ${colors.white};
+    color: ${colors.redLight};
     display: block;
   }
 `
@@ -73,15 +74,15 @@ export const InputGroup = styled.div<InputGroupProps>`
   max-width: ${(props) => props.maxWidth || 'auto'};
 
   label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     margin-bottom: 8px;
     display: block;
-    color: ${colors.white};
+    color: ${colors.redLight};
   }
 
   input {
-    background-color: ${colors.white};
+    background-color: ${colors.redLight};
     border: none;
     height: 32px;
     padding: 0 8px;
@@ -91,14 +92,19 @@ export const InputGroup = styled.div<InputGroupProps>`
       outline: none;
     }
 
-    &.error {
-      border: 1px solid red;
+    &.has-error {
+      background-color: ${colors.error};
     }
+  }
+
+  small {
+    color: #900000;
+    font-size: 12px;
   }
 `
 export const Row = styled.div<RowProps>`
   display: flex;
   column-gap: 24px;
   margin-top: ${(props) => props.marginTop || '0'};
-  align-items: flex-end;
+  align-items: flex-start;
 `
