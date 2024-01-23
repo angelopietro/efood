@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { close, remove } from '../../store/reducers/cart'
+import { checkoutSteps, close, remove } from '../../store/reducers/cart'
 import CartItems from './CartItems'
 import FormDelivery from './FormDelivery'
 import FormPayment from './FormPayment'
@@ -15,13 +15,13 @@ const Cart = () => {
 
   const closeCart = () => {
     dispatch(close())
+    dispatch(checkoutSteps({ step: 'Cart' }))
   }
 
   const removeItem = (id: number) => {
     dispatch(remove(id))
   }
 
-  console.log(currentCheckoutStep)
   const renderStep = () => {
     switch (currentCheckoutStep.step) {
       case 'Delivery':

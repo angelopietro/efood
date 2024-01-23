@@ -7,6 +7,6 @@ export const formatPrice = (price = 0) => {
 
 export const getTotalPrice = (items: ProductMenu[]) => {
   return items.reduce((acumulador, valorAtual) => {
-    return (acumulador += valorAtual.preco!)
+    return (acumulador += valorAtual.preco)
   }, 0)
 }

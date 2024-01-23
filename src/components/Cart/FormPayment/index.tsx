@@ -1,5 +1,6 @@
 import { useFormik } from 'formik'
 import { useState } from 'react'
+import InputMask from 'react-input-mask'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 import { usePurchaseMutation } from '../../../services/api'
@@ -32,8 +33,7 @@ const FormPayment = () => {
         .min(5, 'O nome precisa ter pelo menos 5 caracteres')
         .required('O campo é obrigatório'),
       cardNumber: Yup.string()
-        .min(13, 'Digite o mínimo 13 caracteres')
-        .max(19, 'Digite o máximo 19 caracteres')
+        .min(16, 'Digite o mínimo 16 caracteres')
         .required('O campo é obrigatório'),
       CardCvv: Yup.string()
         .min(3, 'Digite os 3 caracteres')
@@ -139,13 +139,14 @@ const FormPayment = () => {
             <Row marginTop="10px">
               <InputGroup>
                 <label htmlFor="cardNumber">Número do cartão</label>
-                <input
+                <InputMask
                   id="cardNumber"
                   type="text"
                   name="cardNumber"
                   value={form.values.cardNumber}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask={'9999 9999 9999 9999'}
                 />
                 <small>
                   {
@@ -158,13 +159,14 @@ const FormPayment = () => {
             <Row marginTop="10px">
               <InputGroup>
                 <label htmlFor="CardCvv">CVV</label>
-                <input
+                <InputMask
                   id="CardCvv"
-                  type="number"
+                  type="text"
                   name="CardCvv"
                   value={form.values.CardCvv}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask={'999'}
                 />
                 <small>
                   {
@@ -177,13 +179,16 @@ const FormPayment = () => {
             <Row marginTop="10px">
               <InputGroup>
                 <label htmlFor="cardMonth">Mês de vencimento</label>
-                <input
+                <InputMask
                   id="cardMonth"
                   type="text"
                   name="cardMonth"
-                  value={form.values.cardMonth}
+                  value={
+                    form.values.cardMonth === 0 ? '' : form.values.cardMonth
+                  }
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask={'99'}
                 />
                 <small>
                   {
@@ -194,13 +199,14 @@ const FormPayment = () => {
               </InputGroup>
               <InputGroup>
                 <label htmlFor="cardYear">Ano de vencimento</label>
-                <input
+                <InputMask
                   id="cardYear"
-                  type="number"
+                  type="text"
                   name="cardYear"
-                  value={form.values.cardYear}
+                  value={form.values.cardYear === 0 ? '' : form.values.cardYear}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
+                  mask={'99'}
                 />
                 <small>
                   {
