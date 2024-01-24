@@ -17,7 +17,7 @@ const FormDelivery = () => {
       userAddress: address.description,
       userCity: address.city,
       userZipCode: address.zipCode,
-      userAddressNumber: address.number,
+      userAddressNumber: address.number || '',
       userComplement: address.complement
     },
     validationSchema: Yup.object({
@@ -48,7 +48,7 @@ const FormDelivery = () => {
               description: values.userAddress,
               city: values.userCity,
               zipCode: values.userZipCode,
-              number: values.userAddressNumber,
+              number: Number(values.userAddressNumber),
               complement: values.userComplement
             }
           }
@@ -173,11 +173,7 @@ const FormDelivery = () => {
               id="userAddressNumber"
               type="text"
               name="userAddressNumber"
-              value={
-                form.values.userAddressNumber === 0
-                  ? ''
-                  : form.values.userAddressNumber
-              }
+              value={form.values.userAddressNumber}
               onChange={form.handleChange}
               onBlur={form.handleBlur}
             />

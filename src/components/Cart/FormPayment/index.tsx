@@ -25,8 +25,8 @@ const FormPayment = () => {
       userName: card.name,
       cardNumber: card.number,
       CardCvv: '',
-      cardMonth: card.expires.month,
-      cardYear: card.expires.year
+      cardMonth: card.expires.month || '',
+      cardYear: card.expires.year || ''
     },
     validationSchema: Yup.object({
       userName: Yup.string()
@@ -121,6 +121,7 @@ const FormPayment = () => {
               <InputGroup>
                 <label htmlFor="userName">Nome no cartão</label>
                 <input
+                  className={checkInputHasError('userName') ? 'has-error' : ''}
                   id="userName"
                   type="text"
                   name="userName"
@@ -140,6 +141,9 @@ const FormPayment = () => {
               <InputGroup>
                 <label htmlFor="cardNumber">Número do cartão</label>
                 <InputMask
+                  className={
+                    checkInputHasError('cardNumber') ? 'has-error' : ''
+                  }
                   id="cardNumber"
                   type="text"
                   name="cardNumber"
@@ -160,6 +164,7 @@ const FormPayment = () => {
               <InputGroup>
                 <label htmlFor="CardCvv">CVV</label>
                 <InputMask
+                  className={checkInputHasError('CardCvv') ? 'has-error' : ''}
                   id="CardCvv"
                   type="text"
                   name="CardCvv"
@@ -180,12 +185,11 @@ const FormPayment = () => {
               <InputGroup>
                 <label htmlFor="cardMonth">Mês de vencimento</label>
                 <InputMask
+                  className={checkInputHasError('cardMonth') ? 'has-error' : ''}
                   id="cardMonth"
                   type="text"
                   name="cardMonth"
-                  value={
-                    form.values.cardMonth === 0 ? '' : form.values.cardMonth
-                  }
+                  value={form.values.cardMonth}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
                   mask={'99'}
@@ -200,10 +204,11 @@ const FormPayment = () => {
               <InputGroup>
                 <label htmlFor="cardYear">Ano de vencimento</label>
                 <InputMask
+                  className={checkInputHasError('cardYear') ? 'has-error' : ''}
                   id="cardYear"
                   type="text"
                   name="cardYear"
-                  value={form.values.cardYear === 0 ? '' : form.values.cardYear}
+                  value={form.values.cardYear}
                   onChange={form.handleChange}
                   onBlur={form.handleBlur}
                   mask={'99'}
